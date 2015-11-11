@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>Recepción de imagen</title>
+	<!-- Latest compiled and minified CSS -->
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="">
+		<div class="row text-center">
+			<div  class='well col-md-4 col-md-offset-4'>
+				<h3>No se esta recibiendo imagen</h3>
+				<i id='loader' style='display:none' class='fa fa-refresh fa-spin fa-3x'></i>
+				<div style='display:none' id="img-container">
+					<img src="test2">
+				</div>	
+			</div>
+		</div>
+	</div>
+<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+<script>
+    $(document).ready(function(){
+    	var conn = new ab.Session('ws://pruebas:8080',
+        function() {
+        	console.log('conexión lista');
+            conn.subscribe('all',function(topic,data) {
+            	console.log(data);
+            	if(data=='1'){
+            		// recibiendo
+            		$("h3").text("Recibiendo imagen...");
+            		$("#loader").show();
+            		$("#img-container").hide();
+            	}else{
+            		// mostrar
+            		$("h3").text("Imagen recibida");
+            		$("#loader").hide();
+            		$("#img-container img").attr('src','test2?v='+Math.floor((Math.random() * 10) + 1));
+            		$("#img-container").show();
+            	}
+            });
+        },
+        function() {
+            console.warn('conexión terminada');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+    });
+</script>
+</body>
+</html>
