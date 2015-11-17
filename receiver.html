@@ -28,7 +28,7 @@
 <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
 <script>
     $(document).ready(function(){
-    	var conn = new ab.Session('ws://pruebas:8080',
+    	var conn = new ab.Session('ws://sendimage:8080',
         function() {
         	console.log('conexión lista');
             conn.subscribe('all',function(topic,data) {
